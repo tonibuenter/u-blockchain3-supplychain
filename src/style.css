@@ -47,6 +47,23 @@ body {
     color: red;
 }
 
+#transaction-in-progress {
+    position: fixed;
+    top:0em;
+    bottom:0em;
+    left:1em;
+    right:1em;
+    background: lightgray;
+    opacity: 0.6;
+    line-height: 2;
+    font-size: 200%;
+    color: red;
+    padding: 5em;
+    border-radius: 1em;
+    text-align: center;
+    display: none;
+}
+
 
 .result-panel {
     padding: 2em;

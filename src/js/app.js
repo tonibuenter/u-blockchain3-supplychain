@@ -57,7 +57,7 @@ function AppFun() {
   }
 
   function abbrAddress(address) {
-    if (address.length != 42) {
+    if (address.length !== 42) {
       return '';
     }
     return address.substring(0, 5) + '...' + address.substring(38, 42);
@@ -138,13 +138,16 @@ function AppFun() {
     App.contracts.SupplyChain = TruffleContract(supplyChainArtifact);
     App.contracts.SupplyChain.setProvider(App.web3Provider);
     try {
-      const instance = await App.contracts.SupplyChain.deployed();
-      App.ownerID = await instance.owner();
-      App.supplyChainContractAddress = instance.address;
+      txStart();
+      const supplyChain = await App.contracts.SupplyChain.deployed();
+      App.ownerID = await supplyChain.owner();
+      App.supplyChainContractAddress = supplyChain.address;
       writeAppData();
       updateRoleManager(App);
     } catch (e) {
       console.error(e);
+    } finally {
+      txEnd();
     }
   }
 
@@ -169,18 +172,18 @@ function AppFun() {
       if (!upc) {
         return;
       }
-      const instance = await App.contracts.SupplyChain.deployed();
-      let res = await instance.fetchItemBufferOne(upc);
+      const supplyChain = await App.contracts.SupplyChain.deployed();
+      let res = await supplyChain.fetchItemBufferOne(upc);
       writeFormData(res);
-      res = await instance.fetchItemBufferTwo(upc);
+      res = await supplyChain.fetchItemBufferTwo(upc);
       writeFormData({ ...res, upc });
     });
 
-    $('#button-upload-image').click(async (e) => {
+    $('#button-upload-image').click(async () => {
       uploadInfura();
     });
 
-    $('#transfer-ownership').click(async (e) => {
+    $('#transfer-ownership').click(async () => {
       if (!equalAddress(App.metamaskAccountID, App.ownerID)) {
         alert('You are not a the Owner of the Contract.');
         return;
@@ -191,12 +194,15 @@ function AppFun() {
         return;
       }
       try {
+        txStart();
         const supplyChain = await App.contracts.SupplyChain.deployed();
         let receipt = await supplyChain.transferOwnership(newOwnerID, { from: App.ownerID });
         processReceipt(receipt);
         alert('Contract Ownership has changed. Please reload page.');
       } catch (e) {
         alert('Could not tranfer Contract Ownership: ' + e.message);
+      } finally {
+        txEnd();
       }
     });
   }
@@ -219,7 +225,7 @@ function AppFun() {
       headers: {
         //'Content-Type': 'multipart/form-data; boundary=----'
       },
-      body: formData // This is your file object
+      body: formData
     });
     let json = await res.json();
     App.productImageHash = json.Hash;
@@ -283,15 +289,16 @@ function AppFun() {
     readFormData();
 
     try {
-      const contract = await App.contracts.SupplyChain.deployed();
-      let exists = await contract.isUpcExists(formData.upc);
+      txStart();
+      const supplyChain = await App.contracts.SupplyChain.deployed();
+      let exists = await supplyChain.isUpcExists(formData.upc);
       if (exists) {
         alert(`UPC ${formData.upc} already in use!`);
         return;
       }
       let originFarmerID = formData.originFarmerID || App.metamaskAccountID;
 
-      const receipt = await contract.harvestItem(
+      const receipt = await supplyChain.harvestItem(
         formData.upc,
         originFarmerID,
         formData.originFarmName,
@@ -312,6 +319,8 @@ function AppFun() {
       }
     } catch (e) {
       alert('Harvest Item was not successful. ' + e.message);
+    } finally {
+      txEnd();
     }
   }
 
@@ -322,12 +331,15 @@ function AppFun() {
     }
     readFormData();
     try {
-      const contract = await App.contracts.SupplyChain.deployed();
-      const receipt = await contract.processItem(formData.upc, { from: App.metamaskAccountID });
+      txStart();
+      const supplyChain = await App.contracts.SupplyChain.deployed();
+      const receipt = await supplyChain.processItem(formData.upc, { from: App.metamaskAccountID });
       processReceipt(receipt);
       alert('Item processed');
     } catch (e) {
       alert('Could not process item: ' + e.message);
+    } finally {
+      txEnd();
     }
   }
 
@@ -338,12 +350,15 @@ function AppFun() {
     }
     readFormData();
     try {
-      const contract = await App.contracts.SupplyChain.deployed();
-      const receipt = await contract.packItem(formData.upc, { from: App.metamaskAccountID });
+      txStart();
+      const supplyChain = await App.contracts.SupplyChain.deployed();
+      const receipt = await supplyChain.packItem(formData.upc, { from: App.metamaskAccountID });
       processReceipt(receipt);
       alert('Item packed');
     } catch (e) {
       alert('Could not pack item: ' + e.message);
+    } finally {
+      txEnd();
     }
   }
 
@@ -354,12 +369,15 @@ function AppFun() {
     }
     readFormData();
     try {
-      const contract = await App.contracts.SupplyChain.deployed();
-      const receipt = await contract.sellItem(formData.upc, formData.productPrice, { from: App.metamaskAccountID });
+      txStart();
+      const supplyChain = await App.contracts.SupplyChain.deployed();
+      const receipt = await supplyChain.sellItem(formData.upc, formData.productPrice, { from: App.metamaskAccountID });
       processReceipt(receipt);
       alert('Item sold');
     } catch (e) {
       alert('Could not sell item: ' + e.message);
+    } finally {
+      txEnd();
     }
   }
 
@@ -370,13 +388,16 @@ function AppFun() {
     }
     readFormData();
     try {
-      const contract = await App.contracts.SupplyChain.deployed();
-      const walletValue = App.web3.utils.toWei('3', 'ether');
-      const receipt = await contract.buyItem(formData.upc, { from: App.metamaskAccountID, value: walletValue });
+      txStart();
+      const supplyChain = await App.contracts.SupplyChain.deployed();
+      const walletValue = App.web3.utils.toWei('0.01', 'ether');
+      const receipt = await supplyChain.buyItem(formData.upc, { from: App.metamaskAccountID, value: walletValue });
       processReceipt(receipt);
       alert('Item Bought');
     } catch (e) {
       alert('Could not buy item: ' + e.message);
+    } finally {
+      txEnd();
     }
   }
 
@@ -387,12 +408,15 @@ function AppFun() {
     }
     readFormData();
     try {
-      const contract = await App.contracts.SupplyChain.deployed();
-      const receipt = await contract.shipItem(formData.upc, { from: App.metamaskAccountID });
+      txStart();
+      const supplyChain = await App.contracts.SupplyChain.deployed();
+      const receipt = await supplyChain.shipItem(formData.upc, { from: App.metamaskAccountID });
       processReceipt(receipt);
       alert('Item Shipped');
     } catch (e) {
       alert('Could not ship item: ' + e.message);
+    } finally {
+      txEnd();
     }
   }
 
@@ -402,12 +426,15 @@ function AppFun() {
       return;
     }
     try {
-      const contract = await App.contracts.SupplyChain.deployed();
-      const receipt = await contract.receiveItem(formData.upc, { from: App.metamaskAccountID });
+      txStart();
+      const supplyChain = await App.contracts.SupplyChain.deployed();
+      const receipt = await supplyChain.receiveItem(formData.upc, { from: App.metamaskAccountID });
       processReceipt(receipt);
       alert('Item Received');
     } catch (e) {
       alert('Could not receive item: ' + e.message);
+    } finally {
+      txEnd();
     }
   }
 
@@ -418,12 +445,15 @@ function AppFun() {
     }
     readFormData();
     try {
-      const contract = await App.contracts.SupplyChain.deployed();
-      const receipt = await contract.purchaseItem(formData.upc, { from: App.metamaskAccountID });
+      txStart();
+      const supplyChain = await App.contracts.SupplyChain.deployed();
+      const receipt = await supplyChain.purchaseItem(formData.upc, { from: App.metamaskAccountID });
       processReceipt(receipt);
       alert('Item Purchased');
     } catch (e) {
       alert('Could not purchase item: ' + e.message);
+    } finally {
+      txEnd();
     }
   }
 
@@ -444,8 +474,8 @@ function AppFun() {
       return;
     }
     infoLog(`Try to fetchItemBufferOne ${App.upcSearch}`);
-    const instance = await App.contracts.SupplyChain.deployed();
-    const res = await instance.fetchItemBufferOne(upc);
+    const supplyChain = await App.contracts.SupplyChain.deployed();
+    const res = await supplyChain.fetchItemBufferOne(upc);
     infoLog(JSON.stringify(res));
     return res;
   }
@@ -457,8 +487,8 @@ function AppFun() {
       return;
     }
     infoLog(`Try to fetchItemBufferTwo ${App.upcSearch}`);
-    const instance = await App.contracts.SupplyChain.deployed();
-    const res = await instance.fetchItemBufferTwo(upc);
+    const supplyChain = await App.contracts.SupplyChain.deployed();
+    const res = await supplyChain.fetchItemBufferTwo(upc);
     infoLog(JSON.stringify(res));
     return res;
   }
@@ -476,10 +506,6 @@ function infoLog(txt) {
 
 function errorLog(txt) {
   $('#log-data').prepend($('<div>').addClass('error').text(txt));
-}
-
-function logPrepend(e) {
-  $('#log-data').prepend(e);
 }
 
 function successLog(txt) {
@@ -566,14 +592,19 @@ function updateRoleManager(appData) {
     return $('<button>', {
       text: role,
       click: async () => {
-        if (confirm('Changing state (current ' + state + ') for ' + role)) {
-          const roleContract = await appData.contracts.SupplyChain.deployed();
-          if (state) {
-            await roleContract['renounce' + role]({ from: address });
-          } else {
-            await roleContract['add' + role](address, { from: address });
+        try {
+          txStart();
+          if (confirm('Changing state (current ' + state + ') for ' + role)) {
+            const roleContract = await appData.contracts.SupplyChain.deployed();
+            if (state) {
+              await roleContract['renounce' + role]({ from: address });
+            } else {
+              await roleContract['add' + role](address, { from: address });
+            }
+            alert('Please refresh the Roles after a couple of seconds to see the changes.');
           }
-          alert('Please refresh the Roles after a couple of seconds to see the changes.');
+        } finally {
+          txEnd();
         }
       }
     }).addClass('button state-' + state);
@@ -588,4 +619,12 @@ function updateRoleManager(appData) {
       }
     });
   }
+}
+
+function txStart() {
+  $('#transaction-in-progress').show();
+}
+
+function txEnd() {
+  $('#transaction-in-progress').hide();
 }

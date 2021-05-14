@@ -1,13 +1,10 @@
-// This script is designed to test the solidity smart contract - SuppyChain.sol -- and the various functions within
-// Declare a variable and assign the compiled smart contract artifact
-
 const truffleAssert = require('truffle-assertions');
 
 var SupplyChain = artifacts.require('SupplyChain');
 
 contract('SupplyChain', function (accounts) {
-  var sku = 1;
-  var upc = 1;
+  let sku = 1;
+  let upc = 1;
   const ownerID = accounts[0];
   const originFarmerID = accounts[1];
   const originFarmName = 'John Doe';
@@ -15,22 +12,19 @@ contract('SupplyChain', function (accounts) {
   const productImageHash = '';
   const originFarmLatitude = '-38.239770';
   const originFarmLongitude = '144.341490';
-  var productID = sku + upc;
   const productNotes = 'Some Best beans for Espresso...';
-  const productPrice = web3.utils.toWei('1', 'ether');
-  var itemState = 0;
   const distributorID = accounts[2];
   const retailerID = accounts[3];
   const consumerID = accounts[4];
   const anybodyID = accounts[5];
-  const emptyAddress = '0x00000000000000000000000000000000000000';
 
-  ///Available Accounts
+  ///Available Accounts (Ganache)
   ///==================
   ///(0) 0x1c51fB105A131e6dc30263Df09235697138DC473
   ///(1) 0x15dE60c3aEa2C21Fd1706C4A6aC0aA2Db105554c
   ///(2) 0x6fE90a13C80F6F8dcB6646F0EB42485E7EA2806B
   ///(3) 0x836B084150Ec645b150736656db46c2a4c3BAAb6
+  ///(5) 0xDDbe5347055878a792F35Bc567079145421fF5b8
 
   console.log('Contract Owner:', ownerID);
   console.log('Farmer:', originFarmerID);
