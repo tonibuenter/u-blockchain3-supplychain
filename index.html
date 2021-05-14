@@ -6,103 +6,201 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fair Trade Coffee</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="src/style.css">
+    <link rel="stylesheet" type="text/css" href="node_modules/tooltipster/dist/css/tooltipster.bundle.min.css">
+    <link rel="stylesheet" type="text/css"
+          href="node_modules/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-light.min.css">
+    <link href="data:image/x-icon;base64,AAABAAEAEBAAAAAAAABoBQAAFgAAACgAAAAQAAAAIAAAAAEACAAAAAAAAAEAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP//AAD8fwAA/H8AAPxjAAD/4wAA/+MAAMY/AADGPwAAxjEAAP/xAAD/8QAA4x8AAOMfAADjHwAA//8AAP//AAA="
+          rel="icon" type="image/x-icon">
+
 </head>
 
 <body>
-    <div class="container">
-        <h1 style="text-align: center;">Fair Trade Coffee</h1>
-        <hr>
-        <p style="text-align: center;">Prove the authenticity of coffee using the Ethereum blockchain.</p>
-    </div>
+<div class="container">
+    <h1 style="text-align: center;">Fair Trade Coffee</h1>
+    <hr>
+    <p style="text-align: center;">Prove the authenticity of coffee using the Ethereum blockchain.</p>
+</div>
 
-    <div id="ftc-harvest">
-        <h2>Product Overview</h2>
-        <div class="form-group">
-            SKU
-            <br>
-            <input class="input-field" type="number" id="sku" name="sku" value=1><br>
-            UPC
-            <br>
-            <input type="number" id="upc" name="upc" value=1><br>
-            Current Owner ID
-            <br>
-            <input type="text" id="ownerID" name="ownerID" value="0x963865f57804b38459dd4b2da2f760211a200438" size="50"><br>
-            <div class=button-div>
-                <button class="btn-fetchOne" id="button" type="button" data-id="9">Fetch Data 1</button>
-                <button class="btn-fetchTwo" id="button" type="button" data-id="10">Fetch Data 2</button>
+
+<div>
+
+    <h2 id="tab-app">App Data</h2>
+
+    <div class="form-group" id="div-app">
+        <h3>Metamask Account ID</h3>
+        <div><input class="address" id="metamaskAccountID" disabled="disabled">
+        </div>
+        <h3>Supply Chain Contract</h3>
+        <div>
+            <label for="supplyChainContractAddress">Supply Chain Contract Address</label>
+            <br/><input class="address" id="supplyChainContractAddress" disabled="disabled">
+        </div>
+        <div>
+            <label for="ownerID">Contract Owner ID</label>
+            <br/><input class="address" id="ownerID" disabled="disabled">
+        </div>
+        <div>
+
+            <div class="double-right-nav">
+                <label for="ownerID">New Contract Owner ID</label>
+                <br/>
+                <div>
+                    <input class="address" id="newOwnerID">
+                </div>
+                <div>
+                    <button class="small nowrap" id="transfer-ownership">Transfer Ownership</button>
+                </div>
             </div>
         </div>
-        <div class=form-break></div>
-        <h2>Farm Details</h2>
-        <div class="form-group">
-            Farmer ID
-            <br>
-            <input type="text" id="originFarmerID" name="originFarmerID" value="0x99c289eb2aacec289631a5ddf62cf27a63d4494f"
-                size="50"><br>
-            Farm Name
-            <br>
-            <input type="text" id="originFarmName" name="originFarmName" value="John Doe"><br>
-            Farm Information
-            <br>
-            <input type="text" id="originFarmInformation" name="originFarmInformation" value="Yarra Valley"><br>
-            Farm Latitude
-            <br>
-            <input type="text" id="originFarmLatitude" name="originFarmLatitude" value="-38.239770"><br>
-            Farm Longitude
-            <br>
-            <input type="text" id="originFarmLongitude" name="originFarmLongitude" value="144.341490"><br>
-            <br>
-            <button class="btn-harvest" id="button" type="button" data-id="1">Harvest</button>
-            <button class="btn-process" id="button" type="button" data-id="2">Process</button>
-            <button class="btn-pack" id="button" type="button" data-id="3">Pack</button>
-            <button class="btn-forsale" id="button" type="button" data-id="4">ForSale</button>
+
+        <h3>Roles</h3>
+        <div id="div-role-manager">
+
         </div>
-        <div class=form-break></div>
-        <h2>Product Details</h2>
-        <div class="form-group">
-            Product Notes
-            <br>
-            <input type="text" id="productNotes" name="productNotes" value="Best beans for Espresso" size="60"><br>
-            Product Price
-            <br>
-            <input type="number" id="productPrice" name="productPrice" value=1>ETH<br>
-            Distributor ID
-            <br>
-            <input type="text" id="distributorID" name="distributorID" value="0xf1b1bcd24dad92303dd9fe78be639f7bcf9c238d"
-                size="50">
-            <br>
-            Retailer ID
-            <br>
-            <input type="text" id="retailerID" name="retailerID" value="0x0fb2bfefd526966c87efa19f6693d50971763fc2"
-                size="50"><br>
-            Distributor ID
-            <br>
-            <input type="text" id="consumerID" name="consumerID" value="0x5d777e9127b28fb119e81a6304278a0a21bef1c4"
-                size="50"><br>
-            <br>
-            <button class="btn-buy" id="button" type="button" data-id="5">Buy</button>
-            <button class="btn-ship" id="button" type="button" data-id="6">Ship</button>
-            <button class="btn-receive" id="button" type="button" data-id="7">Receive</button>
-            <button class="btn-purchase" id="button" type="button" data-id="8">Purchase</button>
-        </div>
-        <div class=form-break></div>
-        <hr>
+
     </div>
 
-    <h2>Transaction History<span id="ftc-history"></span></h2>
-    <div>
-        <ul id="ftc-events">
-            <!-- Events will appear here from app.js -->
-        </ul>
-        <br>
-        <hr>
+
+    <h2 id="tab-search">Product Search</h2>
+
+    <div class="form-group" id="div-search">
+        <div>
+            <label for="upcSearch">Search by UPC</label>
+            <br/><input type="number" id="upcSearch">
+        </div>
+        <div class="buttons">
+            <button class="btn-fetchOne" id="button9" type="button">Fetch Data 1</button>
+            <button class="btn-fetchTwo" id="button10" type="button">Fetch Data 2</button>
+            <button id="button-search-clear" type="button">Clear</button>
+            <button id="button-search-select" type="button">Select...</button>
+        </div>
+        <div id="div-result" class="result-panel">
+            ...
+        </div>
     </div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <!-- <script src="js/web3.min.js"></script> -->
-    <script src="js/truffle-contract.js"></script>
-    <script src="js/app.js"></script>
+    <div class=form-break></div>
+
+    <div class="double-side">
+        <div class="farm-details">
+            <h2 id="tab-farm">Farm Details</h2>
+
+            <div class="form-group" id="div-farm">
+                <div>
+                    <label for="upc">Universal Product Code (UPC)</label>
+                    <br/><input type="number" id="upc">
+                </div>
+                <div>
+                    <label for="originFarmerID">Farmer ID</label>
+                    <br/><input class="address" id="originFarmerID" placeholder="(Defaults to Metamask Account ID)">
+                </div>
+                <div>
+                    <label for="originFarmName">Farm Name</label>
+                    <br/><input id="originFarmName">
+                </div>
+                <div>
+                    <label for="originFarmInformation">Farm Information</label>
+                    <br/><input id="originFarmInformation">
+                </div>
+                <div>
+                    <label for="originFarmLatitude">Farm Latitude</label>
+                    <br/><input type="number" id="originFarmLatitude" placeholder="(Defaults to 0)">
+                </div>
+                <div>
+                    <label for="originFarmLongitude">Farm Longitude</label>
+                    <br/><input type="number" id="originFarmLongitude" placeholder="(Defaults to 0)">
+                </div>
+                <div>
+                    <label for="productNotes">Product Notes</label>
+                    <br/><input id="productNotes">
+                </div>
+                <div>
+                    <label for="productImage">Product Image</label>
+                    <br/><input id="productImage" type="file">
+                    <button id="button-upload-image">Upload Image</button>
+                    <img id="displayProductImage" src="assets/NO_PRODUCT_IMAGE.png">
+                </div>
+                <div class="buttons">
+                    <button class="btn-harvest tooltip" id="button1" type="button" title="Harvest : Farmers only">
+                        Harvest
+                    </button>
+                    <button class="btn-process tooltip" id="button2" type="button" title="Process : Farmers only">
+                        Process
+                    </button>
+                    <button class="btn-pack tooltip" id="button3" type="button" title="Pack : Farmers only">Pack
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="product-details">
+            <h2 id="tab-product">Product Details</h2>
+
+            <div class="form-group" id="div-product">
+                <div>
+                    <label for="productPrice">Product Price (WEI)</label>
+                    <br/><input type="number" id="productPrice">
+                </div>
+                <div>
+                    <label for="distributorID">Distributor ID</label>
+                    <br/><input class="address" id="distributorID" disabled="disabled">
+                </div>
+                <div>
+                    <label for="retailerID">Retailer ID</label>
+                    <br/><input class="address" id="retailerID" disabled="disabled">
+                </div>
+                <div>
+                    <label for="consumerID">Consumer ID</label>
+                    <br/><input class="address" id="consumerID" disabled="disabled">
+                </div>
+                <div>
+                    <label for="itemState">Item State</label>
+                    <br/><input class="address" id="itemState" disabled="disabled">
+                </div>
+                <div class="buttons">
+                    <button class="btn-forsale tooltip" id="button4" type="button" title="ForSale : Farmers only">
+                        ForSale
+                    </button>
+                    <button class="btn-buy tooltip" id="button5" type="button" title="Buy : Distributors only">Buy
+                    </button>
+                    <button class="btn-ship tooltip" id="button6" type="button" title="Ship : Distributors only">Ship
+                    </button>
+                    <button class="btn-receive tooltip" id="button7" type="button" title="Receive : Retailer only">
+                        Receive
+                    </button>
+                    <button class="btn-purchase tooltip" id="button8" type="button" title="Buy : Consumer only">Purchase
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<h4>Transaction Events</h4>
+<div id="transaction-events">
+
+</div>
+
+
+<h4>Transaction History</h4>
+<div id="transaction-history"></div>
+
+<h4>Log Data</h4>
+<div id="log-data">
+
+</div>
+
+
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>-->
+<script src="node_modules/web3/dist/web3.min.js"></script>
+<script src="node_modules/jquery/dist/jquery.min.js"></script>
+<script src="node_modules/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+<script src="node_modules/truffle-contract/dist/truffle-contract.js"></script>
+<script src="src/js/app.js"></script>
 </body>
 
 </html>

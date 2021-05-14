@@ -1,0 +1,172 @@
+body {
+    background-color: #fff;
+    padding: 2em;
+    font-family: 'Roboto', 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif';
+    color: #212121;
+
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+#log-data, #transaction-events, #transaction-history {
+    max-height: 10em;
+    overflow-y: auto;
+    padding: 0.4em;
+    border: solid lightgray 1px;
+}
+
+#transaction-history pre {
+    padding: 0.4em;
+    margin: 0.4em;
+    border: solid 1px lightblue;
+}
+
+
+#transaction-history .events {
+    padding: 0.4em;
+    margin: 0.4em;
+    border: solid 1px lightblue;
+}
+
+
+#log-data * {
+    font-size: 12px;
+    font-family: "Courier New";
+}
+
+
+#log-data .success {
+    color: green;
+}
+
+
+#log-data .error {
+    color: red;
+}
+
+
+.result-panel {
+    padding: 2em;
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+.result-panel td.label {
+    width: 14em;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.bold {
+    font-weight: bolder;
+}
+
+input {
+    width: 90%;
+    padding: 12px 20px;
+    margin: 10px 0;
+}
+
+.address {
+    font-size: 90%;
+    font-family: "Courier New";
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    color: white;
+    background-color: #00BCD4;
+    font-size: 16px;
+    padding: 0.6em 0.4em;
+    text-decoration: none;
+    margin: 0.4em 0.2em;
+    cursor: pointer;
+}
+
+button.small {
+    font-size: 80%;
+}
+
+button.state-false, button.state-true {
+    border-radius: 2em;
+}
+
+button.state-false {
+    background-color: lightGray;
+}
+
+button.state-true {
+    background-color: #17d400;
+}
+
+
+.sell {
+    background-color: white;
+    color: #D1C4E9;
+}
+
+.ftc-intro {
+    background-color: #0097A7;
+    color: white;
+    width: 100%;
+    padding: 20px;
+}
+
+.form-group {
+    color: black;
+    padding: 2em;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+}
+
+.form-break {
+    background-color: #fff;
+    color: white;
+    width: 100%;
+    padding: 5px;
+}
+
+.horizontal-rule {
+    background-color: #BDBDBD;
+}
+
+
+.double-side {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 2em;
+}
+
+
+.double-right-nav {
+    display: grid;
+    grid-template-columns: 1fr 0fr;
+    grid-column-gap: 2em;
+    align-items: center;
+}
+
+.nowrap {
+    white-space: nowrap;
+}
+
+#productImage {
+    width: auto;
+}
+
+#displayProductImage {
+    max-height: 100px;
+    max-width: 400px;
+    display: block;
+    background: white;
+    padding: 0.4em;
+    margin: 0.6em;
+}
+
+.buttons {
+    padding: 0.4em;
+    border: dashed 1px gray;
+}
