@@ -1,19 +1,15 @@
-# Project 6 : Supply Chain
+# Supply Chain
 
+## UML
 
-### Truffle
-
-### UML Diagrams
-
-
-#### Class Diagram
+### Class Diagram
 
 ![Class Diagram](docs/classes.png "Class Diagram")
 
 
 
 
-#### Activity Diagram
+### Activity Diagram
 
 The following Activity Diagram shows the harvest item activity.
 
@@ -21,18 +17,18 @@ The following Activity Diagram shows the harvest item activity.
 
 
 
-#### Sequence Diagram
+### Sequence Diagram
 
 ![Sequence Diagram](docs/sequence.png "Sequence Diagram")
 
 
 
-#### State Diagram
+### State Diagram
 
-![Sequence Diagram](docs/state.png "State Diagram")
+![State Diagram](docs/state.png "State Diagram")
 
 
-### Libraries & Tools
+## Libraries & Tools
 
 The following libraries have been used
 
@@ -53,11 +49,11 @@ The following libraries have been used
 
 
 
-### IPFS
+## IPFS
 
 IPFS file upload (add) and download (cat) is used via the `ipfs.infura.io` web service. Calls are done by the JavaScript `fetch` calls:
 
-#### Upload:
+### Upload:
 
 ```javascript
 let res = await fetch('https://ipfs.infura.io:5001/api/v0/add?pin=false', {
@@ -72,7 +68,7 @@ let res = await fetch('https://ipfs.infura.io:5001/api/v0/add?pin=false', {
 
 ```
 
-####Download:
+###Download:
 
 ```javascript
 
@@ -130,21 +126,21 @@ Ownership can be handled by the User Interface.
 ## Rikeby Deployment
 
 
-#### SupplyChain Contract Transaction (Contract Creation)
+### SupplyChain Contract Transaction (Contract Creation)
 
 0x8b3d59667d2a6fe0c2fac6521a459a2749cc6b72c4927cead19bc232b91e61cd
 
-#### SupplyChain Contract Address
+### SupplyChain Contract Address
 
 0x5320CE7D2426520139dFbeE34a73bA60efc783Fb
 
 
 
-#### SupplyChain Contract Owner
+### SupplyChain Contract Owner
 
 0x29c7560d5C0593AEE0d42Ab18018D5a208901F60
 
 
-#### Second Address
+### Second Address
 
 0x15dE60c3aEa2C21Fd1706C4A6aC0aA2Db105554c
