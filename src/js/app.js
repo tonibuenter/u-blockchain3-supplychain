@@ -73,10 +73,7 @@ function AppFun() {
   function writeFormData(data) {
     formData = { ...formData, ...data };
     contractAttributes.forEach((att) => $('#' + att).val(formData[att]));
-    switch (formData.itemState) {
-      case 0:
-        alert('state 0');
-    }
+    console.log(`formData.itemState ${formData.itemState}`);
     App.productImageHash = formData.productImageHash;
     displayProductImage();
   }
@@ -200,7 +197,7 @@ function AppFun() {
         processReceipt(receipt);
         alert('Contract Ownership has changed. Please reload page.');
       } catch (e) {
-        alert('Could not tranfer Contract Ownership: ' + e.message);
+        alert('Could not transfer Contract Ownership: ' + e.message);
       } finally {
         txEnd();
       }
@@ -216,8 +213,8 @@ function AppFun() {
     }
     file = input.files[0];
 
-    const formData = new FormData();
-    formData.append('file', file);
+    const _formData = new FormData();
+    _formData.append('file', file);
     let res = await fetch('https://ipfs.infura.io:5001/api/v0/add?pin=false', {
       // Your POST endpoint
       method: 'POST',
@@ -225,7 +222,7 @@ function AppFun() {
       headers: {
         //'Content-Type': 'multipart/form-data; boundary=----'
       },
-      body: formData
+      body: _formData
     });
     let json = await res.json();
     App.productImageHash = json.Hash;

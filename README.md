@@ -135,7 +135,6 @@ Ownership can be handled by the User Interface.
 0x5320CE7D2426520139dFbeE34a73bA60efc783Fb
 
 
-
 ### SupplyChain Contract Owner
 
 0x29c7560d5C0593AEE0d42Ab18018D5a208901F60
@@ -144,3 +143,10 @@ Ownership can be handled by the User Interface.
 ### Second Address
 
 0x15dE60c3aEa2C21Fd1706C4A6aC0aA2Db105554c
+
+
+### Reference
+
+This project is based on the following template:
+
+https://github.com/udacity/nd1309-Project-6b-Example-Template

@@ -95,20 +95,6 @@ contract SupplyChain is FarmerRole, RetailerRole, DistributorRole, ConsumerRole,
         msg.sender.transfer(amountToReturn);
     }
 
-
-    //    contract Sharer {
-    //    function sendHalf(address payable addr) public payable returns (uint balance) {
-    //        require(msg.value % 2 == 0, "Even value required.");
-    //        uint balanceBeforeTransfer = address(this).balance;
-    //        addr.transfer(msg.value / 2);
-    //        // Since transfer throws an exception on failure and
-    //        // cannot call back here, there should be no way for us to
-    //        // still have half of the money.
-    //        assert(address(this).balance == balanceBeforeTransfer - msg.value / 2);
-    //        return address(this).balance;
-    //    }
-    //}
-
     // Define a modifier that checks if an item.state of a upc is Harvested
     modifier harvested(uint _upc) {
         require(items[_upc].itemState == State.Harvested, 'Harvested status not met!');
