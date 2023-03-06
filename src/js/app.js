@@ -492,9 +492,9 @@ function AppFun() {
 }
 
 $(function () {
-  $(window).load(function () {
+  //$(window).load(function () {
     AppFun();
-  });
+  //});
 });
 
 function infoLog(txt) {
