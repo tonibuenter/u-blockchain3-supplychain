@@ -1,3 +1,11 @@
+const contractAddress = '0x57317Ee59c219EF852F5e31d3eeA67aE3908eA6F';
+
+$(function () {
+  //$(window).load(function () {
+  AppFun();
+  //});
+});
+
 function AppFun() {
   $('.tooltip').tooltipster({
     theme: 'tooltipster-light'
@@ -136,11 +144,23 @@ function AppFun() {
     App.contracts.SupplyChain.setProvider(App.web3Provider);
     try {
       txStart();
-      const supplyChain = await App.contracts.SupplyChain.deployed();
-      App.ownerID = await supplyChain.owner();
-      App.supplyChainContractAddress = supplyChain.address;
+      // const supplyChain = await App.contracts.SupplyChain.deployed();
+      App.supplyChainContract = await App.contracts.SupplyChain.at(contractAddress);
+      App.ownerID = await App.supplyChainContract.owner();
+      App.supplyChainContractAddress = App.supplyChainContract.address;
       writeAppData();
       updateRoleManager(App);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      txEnd();
+    }
+  }
+
+  async function getSupplyChainContract() {
+    try {
+      txStart();
+      return App.contracts.SupplyChain.at(contractAddress);
     } catch (e) {
       console.error(e);
     } finally {
@@ -169,7 +189,7 @@ function AppFun() {
       if (!upc) {
         return;
       }
-      const supplyChain = await App.contracts.SupplyChain.deployed();
+      const supplyChain = App.supplyChainContract;
       let res = await supplyChain.fetchItemBufferOne(upc);
       writeFormData(res);
       res = await supplyChain.fetchItemBufferTwo(upc);
@@ -192,7 +212,7 @@ function AppFun() {
       }
       try {
         txStart();
-        const supplyChain = await App.contracts.SupplyChain.deployed();
+        const supplyChain = App.supplyChainContract;
         let receipt = await supplyChain.transferOwnership(newOwnerID, { from: App.ownerID });
         processReceipt(receipt);
         alert('Contract Ownership has changed. Please reload page.');
@@ -287,7 +307,7 @@ function AppFun() {
 
     try {
       txStart();
-      const supplyChain = await App.contracts.SupplyChain.deployed();
+      const supplyChain = App.supplyChainContract;
       let exists = await supplyChain.isUpcExists(formData.upc);
       if (exists) {
         alert(`UPC ${formData.upc} already in use!`);
@@ -329,7 +349,7 @@ function AppFun() {
     readFormData();
     try {
       txStart();
-      const supplyChain = await App.contracts.SupplyChain.deployed();
+      const supplyChain = App.supplyChainContract;
       const receipt = await supplyChain.processItem(formData.upc, { from: App.metamaskAccountID });
       processReceipt(receipt);
       alert('Item processed');
@@ -348,7 +368,7 @@ function AppFun() {
     readFormData();
     try {
       txStart();
-      const supplyChain = await App.contracts.SupplyChain.deployed();
+      const supplyChain = App.supplyChainContract;
       const receipt = await supplyChain.packItem(formData.upc, { from: App.metamaskAccountID });
       processReceipt(receipt);
       alert('Item packed');
@@ -367,7 +387,7 @@ function AppFun() {
     readFormData();
     try {
       txStart();
-      const supplyChain = await App.contracts.SupplyChain.deployed();
+      const supplyChain = App.supplyChainContract;
       const receipt = await supplyChain.sellItem(formData.upc, formData.productPrice, { from: App.metamaskAccountID });
       processReceipt(receipt);
       alert('Item sold');
@@ -386,7 +406,7 @@ function AppFun() {
     readFormData();
     try {
       txStart();
-      const supplyChain = await App.contracts.SupplyChain.deployed();
+      const supplyChain = App.supplyChainContract;
       const walletValue = App.web3.utils.toWei('0.01', 'ether');
       const receipt = await supplyChain.buyItem(formData.upc, { from: App.metamaskAccountID, value: walletValue });
       processReceipt(receipt);
@@ -406,7 +426,7 @@ function AppFun() {
     readFormData();
     try {
       txStart();
-      const supplyChain = await App.contracts.SupplyChain.deployed();
+      const supplyChain = App.supplyChainContract;
       const receipt = await supplyChain.shipItem(formData.upc, { from: App.metamaskAccountID });
       processReceipt(receipt);
       alert('Item Shipped');
@@ -424,7 +444,7 @@ function AppFun() {
     }
     try {
       txStart();
-      const supplyChain = await App.contracts.SupplyChain.deployed();
+      const supplyChain = App.supplyChainContract;
       const receipt = await supplyChain.receiveItem(formData.upc, { from: App.metamaskAccountID });
       processReceipt(receipt);
       alert('Item Received');
@@ -443,7 +463,7 @@ function AppFun() {
     readFormData();
     try {
       txStart();
-      const supplyChain = await App.contracts.SupplyChain.deployed();
+      const supplyChain = App.supplyChainContract;
       const receipt = await supplyChain.purchaseItem(formData.upc, { from: App.metamaskAccountID });
       processReceipt(receipt);
       alert('Item Purchased');
@@ -471,7 +491,7 @@ function AppFun() {
       return;
     }
     infoLog(`Try to fetchItemBufferOne ${App.upcSearch}`);
-    const supplyChain = await App.contracts.SupplyChain.deployed();
+    const supplyChain = App.supplyChainContract;
     const res = await supplyChain.fetchItemBufferOne(upc);
     infoLog(JSON.stringify(res));
     return res;
@@ -484,127 +504,121 @@ function AppFun() {
       return;
     }
     infoLog(`Try to fetchItemBufferTwo ${App.upcSearch}`);
-    const supplyChain = await App.contracts.SupplyChain.deployed();
+    const supplyChain = App.supplyChainContract;
     const res = await supplyChain.fetchItemBufferTwo(upc);
     infoLog(JSON.stringify(res));
     return res;
   }
-}
 
-$(function () {
-  //$(window).load(function () {
-    AppFun();
-  //});
-});
+  function updateRoleManager(appData) {
+    const roles = ['Farmer', 'Distributor', 'Retailer', 'Consumer'];
+    let address = appData.metamaskAccountID;
 
-function infoLog(txt) {
-  $('#log-data').prepend($('<div>').text(txt));
-}
+    process();
 
-function errorLog(txt) {
-  $('#log-data').prepend($('<div>').addClass('error').text(txt));
-}
+    async function process() {
+      let div = $('#div-role-manager');
 
-function successLog(txt) {
-  $('#log-data').prepend($('<div>').addClass('success').text(txt));
-}
+      div.empty();
+      const roleContract = App.supplyChainContract;
 
-function processResultOne(res) {
-  if (res) {
-    $('#div-result')
-      .empty()
-      .append(
-        $('<table>').append(
-          _row('SKU', res[0]),
-          _row('UPC', res[1]),
-          _row('Owner ID', res[2]),
-          _row('Farmer ID', res[3]),
-          _row('Name', res[4]),
-          _row('Farmer Information', res[5]),
-          _row('Latitude', res[6]),
-          _row('Longitude', res[7]),
-          _row('productImageHash', res[8])
-        )
-      );
-  }
-}
-
-function processResultTwo(res) {
-  if (res) {
-    $('#div-result')
-      .empty()
-      .append(
-        $('<table>').append(
-          _row('Product Notes', res.productNotes),
-          _row('Price', res.productPrice),
-          _row('State', _stateInfo(res.itemState)),
-          _row('Distributor', res.distributorID),
-          _row('Retailer', res.retailerID),
-          _row('Consumer', res.consumerID)
-        )
-      );
-  }
-}
-
-function _row(label, value) {
-  return $('<tr>').append($('<td>').addClass('label').text(label), $('<td>').text(value));
-}
-
-function _stateInfo(itemState) {
-  let text = [
-    'Harvested', // 0
-    'Processed', // 1
-    'Packed', // 2
-    'ForSale', // 3
-    'Sold', // 4
-    'Shipped', // 5
-    'Received', // 6
-    'Purchased' // 7
-  ][+itemState];
-  return text || 'Unkown Item State';
-}
-
-function updateRoleManager(appData) {
-  const roles = ['Farmer', 'Distributor', 'Retailer', 'Consumer'];
-  let address = appData.metamaskAccountID;
-
-  process();
-
-  async function process() {
-    let div = $('#div-role-manager');
-
-    div.empty();
-    const roleContract = await appData.contracts.SupplyChain.deployed();
-
-    let buttons = $('<div>').addClass('buttons');
-    div.append(buttons);
-    for (let role of roles) {
-      let state = (appData['is' + role] = await roleContract['is' + role](address, { from: address }));
-      buttons.append(_button(role, state));
-    }
-    buttons.append(_refresh_button());
-  }
-
-  function _button(role, state) {
-    return $('<button>', {
-      text: role,
-      click: async () => {
-        try {
-          txStart();
-          if (confirm('Changing state (current ' + state + ') for ' + role)) {
-            const roleContract = await appData.contracts.SupplyChain.deployed();
-            if (state) {
-              await roleContract['renounce' + role]({ from: address });
-            } else {
-              await roleContract['add' + role](address, { from: address });
-            }
-            alert('Please refresh the Roles after a couple of seconds to see the changes.');
-          }
-        } finally {
-          txEnd();
-        }
+      let buttons = $('<div>').addClass('buttons');
+      div.append(buttons);
+      for (let role of roles) {
+        let state = (appData['is' + role] = await roleContract['is' + role](address, { from: address }));
+        buttons.append(_button(role, state));
       }
-    }).addClass('button state-' + state);
+      buttons.append(_refresh_button());
+    }
+
+    function _button(role, state) {
+      return $('<button>', {
+        text: role,
+        click: async () => {
+          try {
+            txStart();
+            if (confirm('Changing state (current ' + state + ') for ' + role)) {
+              const roleContract = App.supplyChainContract;
+              if (state) {
+                await roleContract['renounce' + role]({ from: address });
+              } else {
+                await roleContract['add' + role](address, { from: address });
+              }
+              alert('Please refresh the Roles after a couple of seconds to see the changes.');
+            }
+          } finally {
+            txEnd();
+          }
+        }
+      }).addClass('button state-' + state);
+    }
+  }
+
+  function infoLog(txt) {
+    $('#log-data').prepend($('<div>').text(txt));
+  }
+
+  function errorLog(txt) {
+    $('#log-data').prepend($('<div>').addClass('error').text(txt));
+  }
+
+  function successLog(txt) {
+    $('#log-data').prepend($('<div>').addClass('success').text(txt));
+  }
+
+  function processResultOne(res) {
+    if (res) {
+      $('#div-result')
+        .empty()
+        .append(
+          $('<table>').append(
+            _row('SKU', res[0]),
+            _row('UPC', res[1]),
+            _row('Owner ID', res[2]),
+            _row('Farmer ID', res[3]),
+            _row('Name', res[4]),
+            _row('Farmer Information', res[5]),
+            _row('Latitude', res[6]),
+            _row('Longitude', res[7]),
+            _row('productImageHash', res[8])
+          )
+        );
+    }
+  }
+
+  function processResultTwo(res) {
+    if (res) {
+      $('#div-result')
+        .empty()
+        .append(
+          $('<table>').append(
+            _row('Product Notes', res.productNotes),
+            _row('Price', res.productPrice),
+            _row('State', _stateInfo(res.itemState)),
+            _row('Distributor', res.distributorID),
+            _row('Retailer', res.retailerID),
+            _row('Consumer', res.consumerID)
+          )
+        );
+    }
+  }
+
+  function _row(label, value) {
+    return $('<tr>').append($('<td>').addClass('label').text(label), $('<td>').text(value));
+  }
+
+  function _stateInfo(itemState) {
+    let text = [
+      'Harvested', // 0
+      'Processed', // 1
+      'Packed', // 2
+      'ForSale', // 3
+      'Sold', // 4
+      'Shipped', // 5
+      'Received', // 6
+      'Purchased' // 7
+    ][+itemState];
+    return text || 'Unkown Item State';
   }
 
   function _refresh_button() {

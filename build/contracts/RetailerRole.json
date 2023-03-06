@@ -80,7 +80,7 @@
   "sourceMap": "156:1627:4:-;;;588:62;8:9:-1;5:2;;;30:1;27;20:12;5:2;588:62:4;619:24;632:10;619:12;;;:24;;;:::i;:::-;156:1627;;1418:124;1476:22;1490:7;1476:9;:13;;;;;;:22;;;;;:::i;:::-;1527:7;1513:22;;;;;;;;;;;;1418:124;:::o;259:232:5:-;354:1;335:21;;:7;:21;;;;327:71;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;413:18;417:4;423:7;413:3;;;:18;;;:::i;:::-;412:19;408:77;;;470:4;447;:11;;:20;459:7;447:20;;;;;;;;;;;;;;;;:27;;;;;;;;;;;;;;;;;;408:77;259:232;;:::o;847:178::-;931:4;978:1;959:21;;:7;:21;;;;951:30;;;;;;;;998:4;:11;;:20;1010:7;998:20;;;;;;;;;;;;;;;;;;;;;;;;;991:27;;847:178;;;;:::o;156:1627:4:-;;;;;;;",
   "deployedSourceMap": "156:1627:4:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;910:110;;8:9:-1;5:2;;;30:1;27;20:12;5:2;910:110:4;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1085:84;;8:9:-1;5:2;;;30:1;27;20:12;5:2;1085:84:4;;;;;;;;;;;;;;;;;;;;;;;;;;;;1241:79;;8:9:-1;5:2;;;30:1;27;20:12;5:2;1241:79:4;;;;;;910:110;968:4;991:22;1005:7;991:9;:13;;:22;;;;:::i;:::-;984:29;;910:110;;;:::o;1085:84::-;1141:21;1154:7;1141:12;:21::i;:::-;1085:84;:::o;1241:79::-;1286:27;1302:10;1286:15;:27::i;:::-;1241:79::o;847:178:5:-;931:4;978:1;959:21;;:7;:21;;;;951:30;;;;;;;;998:4;:11;;:20;1010:7;998:20;;;;;;;;;;;;;;;;;;;;;;;;;991:27;;847:178;;;;:::o;1418:124:4:-;1476:22;1490:7;1476:9;:13;;:22;;;;:::i;:::-;1527:7;1513:22;;;;;;;;;;;;1418:124;:::o;1649:132::-;1710:25;1727:7;1710:9;:16;;:25;;;;:::i;:::-;1766:7;1750:24;;;;;;;;;;;;1649:132;:::o;259:232:5:-;354:1;335:21;;:7;:21;;;;327:71;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;413:18;417:4;423:7;413:3;:18::i;:::-;412:19;408:77;;;470:4;447;:11;;:20;459:7;447:20;;;;;;;;;;;;;;;;:27;;;;;;;;;;;;;;;;;;408:77;259:232;;:::o;565:194::-;663:1;644:21;;:7;:21;;;;636:30;;;;;;;;680:18;684:4;690:7;680:3;:18::i;:::-;676:77;;;737:5;714:4;:11;;:20;726:7;714:20;;;;;;;;;;;;;;;;:28;;;;;;;;;;;;;;;;;;676:77;565:194;;:::o",
   "source": "pragma solidity ^0.4.24;\n\n// Import the library 'Roles'\nimport \"./Roles.sol\";\n\n// Define a contract 'RetailerRole' to manage this role - add, remove, check\ncontract RetailerRole {\n    using Roles for Roles.Role;\n\n    // Define 2 events, one for Adding, and other for Removing\n    event RetailerAdded(address indexed account);\n    event RetailerRemoved(address indexed account);\n\n    // Define a struct 'retailers' by inheriting from 'Roles' library, struct Role\n    Roles.Role private retailers;\n\n    // In the constructor make the address that deploys this contract the 1st retailer\n    constructor() public {\n        _addRetailer(msg.sender);\n    }\n\n    // Define a modifier that checks to see if msg.sender has the appropriate role\n    modifier onlyRetailer() {\n        require(isRetailer(msg.sender), 'Retailer role missing');\n        _;\n    }\n\n    // Define a function 'isRetailer' to check this role\n    function isRetailer(address account) public view returns (bool) {\n        return retailers.has(account);\n    }\n\n    // Define a function 'addRetailer' that adds this role\n    function addRetailer(address account) public  {\n        _addRetailer(account);\n    }\n\n    // Define a function 'renounceRetailer' to renounce this role\n    function renounceRetailer() public {\n        _removeRetailer(msg.sender);\n    }\n\n    // Define an internal function '_addRetailer' to add this role, called by 'addRetailer'\n    function _addRetailer(address account) internal {\n        retailers.add(account);\n        emit RetailerAdded(account);\n    }\n\n    // Define an internal function '_removeRetailer' to remove this role, called by 'removeRetailer'\n    function _removeRetailer(address account) internal {\n        retailers.remove(account);\n        emit RetailerRemoved(account);\n    }\n}\n",
-  "sourcePath": "/Users/tonibuenter/_proj/misc/blockchain/dev/u-blockchain3-supplychain/contracts/coffeeaccesscontrol/RetailerRole.sol",
+  "sourcePath": "/Users/tonibuenter/_proj/misc/blockchain/dev/u3-farmer-supplychain/contracts/coffeeaccesscontrol/RetailerRole.sol",
   "ast": {
     "absolutePath": "project:/contracts/coffeeaccesscontrol/RetailerRole.sol",
     "exportedSymbols": {
@@ -2762,10 +2762,22 @@
       "links": {},
       "address": "0xedBb00C9a6CCa5CDf1525EB5E6cA9d7019a7476d",
       "transactionHash": "0x3b2a4703756de2e9c0b8e90f7d8fd61594556744452cddf155e820f2f09dbdc5"
+    },
+    "1678102658997": {
+      "events": {},
+      "links": {},
+      "address": "0xedBb00C9a6CCa5CDf1525EB5E6cA9d7019a7476d",
+      "transactionHash": "0x3b2a4703756de2e9c0b8e90f7d8fd61594556744452cddf155e820f2f09dbdc5"
+    },
+    "1678113720836": {
+      "events": {},
+      "links": {},
+      "address": "0xedBb00C9a6CCa5CDf1525EB5E6cA9d7019a7476d",
+      "transactionHash": "0x3b2a4703756de2e9c0b8e90f7d8fd61594556744452cddf155e820f2f09dbdc5"
     }
   },
   "schemaVersion": "3.4.9",
-  "updatedAt": "2023-03-05T09:50:19.412Z",
+  "updatedAt": "2023-03-06T14:42:29.451Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {}

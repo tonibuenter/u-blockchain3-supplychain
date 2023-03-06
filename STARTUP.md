@@ -2,7 +2,7 @@
 
 ## Start Blockchain
 
-`./run-ganache-cli-test.sh`
+[start-ganache.sh](start-ganache.sh)
 
 ## Deploy Contract
 
@@ -18,4 +18,13 @@
 **Ganache CLI**
 
 https://github.com/trufflesuite/ganache-cli-archive/blob/master/README.md
+
+### Deploy and Connect to Goerli Testnet
+
+
+ truffle migrate --network goerli
+
+### Goerli Faucet
+
+
 
