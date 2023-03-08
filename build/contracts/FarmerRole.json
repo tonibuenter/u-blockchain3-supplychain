@@ -2774,10 +2774,16 @@
       "links": {},
       "address": "0xDb1a690E2F6C0e17430E9086F34a689735E7A385",
       "transactionHash": "0xc99bccf298e4ac21d6f5f39ade9250f8e277fe3dc373ef5ad25830102f00fd2e"
+    },
+    "1678257019672": {
+      "events": {},
+      "links": {},
+      "address": "0xDb1a690E2F6C0e17430E9086F34a689735E7A385",
+      "transactionHash": "0xc99bccf298e4ac21d6f5f39ade9250f8e277fe3dc373ef5ad25830102f00fd2e"
     }
   },
   "schemaVersion": "3.4.9",
-  "updatedAt": "2023-03-06T14:42:29.447Z",
+  "updatedAt": "2023-03-08T06:30:39.741Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {}
